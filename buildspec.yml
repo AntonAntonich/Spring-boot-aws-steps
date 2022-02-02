@@ -10,12 +10,12 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODE_BUILD_ID | awk -F":" '{print $2}')
 
-    install:
-      runtime-version:
-        java: corretto11
+  install:
+    runtime-version:
+      java: corretto11
 
-    build:
-      commands:
+  build:
+    commands:
         - echo Build completed on 'date'
         - ./gradlew clean build
         - echo Building the Docker images...
@@ -23,8 +23,8 @@ phases:
         - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
 
-    post_build:
-      commands:
+  post_build:
+    commands:
         - echo Build completed on 'date'
         - echo Pushing the Docker images...
         - docker push $REPOSITORY_URI:latest
